@@ -33,6 +33,7 @@ script: |
   umask 0022
   #
   mkdir -p $INSTDIR/TorBrowser.app/Contents/MacOS/
+  mkdir -p $INSTDIR/TorBrowser.app/Contents/MacOS/libreplace/
   mkdir -p $OUTDIR/
   #
   sudo dpkg -i *.deb
@@ -64,6 +65,7 @@ script: |
   #
   make -C obj-macos package INNER_MAKE_PACKAGE=true
   cp -a obj-macos/dist/firefox/* $INSTDIR
+  cp -a obj-macos/memory/replace/ctalloc/* $INSTDIR/TorBrowser.app/Contents/MacOS/libreplace/
   # Remove firefox-bin (we don't use it, see ticket #10126)
   rm -f $INSTDIR/TorBrowser.app/Contents/MacOS/firefox-bin
   #

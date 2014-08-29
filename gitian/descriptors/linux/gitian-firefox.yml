@@ -77,6 +77,7 @@ script: |
   make $MAKEOPTS -f client.mk build
   make -C obj-* package INNER_MAKE_PACKAGE=true
   cp -a obj-*/dist/firefox/* $INSTDIR/Browser/
+  cp -a obj-*/memory/replace/ctalloc/libreplace_ctalloc.so $INSTDIR/Browser/
   # Remove firefox-bin (we don't use it, see ticket #10126)
   rm -f $INSTDIR/Browser/firefox-bin
   # TODO: There goes FIPS-140.. We could upload these somewhere unique and

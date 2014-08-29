@@ -35,6 +35,7 @@ script: |
   umask 0022
   #
   mkdir -p $INSTDIR/Browser/
+  mkdir -p $INSTDIR/Browser/libreplace/
   mkdir -p $OUTDIR/
   unzip -d $INSTDIR mingw-w64-win32-utils.zip
   # Make sure our custom mingw gets used.
@@ -87,6 +88,7 @@ script: |
   #
   make -C obj-* package INNER_MAKE_PACKAGE=true
   cp -a obj-*/dist/firefox/* $INSTDIR/Browser/
+  cp -a obj-*/memory/replace/ctalloc/* $INSTDIR/Browser/libreplace/
   cp -a ~/build/msvcr100.dll $INSTDIR/Browser/
   #
   # What the hell are these three bytes anyways?
