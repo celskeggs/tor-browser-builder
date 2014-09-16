@@ -38,6 +38,8 @@ script: |
   export PATH="$PATH:$HOME/build/apple-osx/bin/"
   # For OpenSSL
   ln -s ~/build/apple-osx/bin/apple-osx-gcc ~/build/apple-osx/bin/i686-apple-darwin11-cc
+  #For gmp, need to trick it so it knows we're doing a 64 bit build
+  for i in ~/build/apple-osx/bin/i686-apple-darwin11-*; do j=`echo $i | sed 's/i686/x86_64/'`; ln -s $i $j; done;
 
   # XXX Clean up these flags?
   export CFLAGS="-m64 -I/usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/include/ -I/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/ -I.  -L/usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/lib/ -L/usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/lib/system/ -mmacosx-version-min=10.5"
@@ -65,15 +67,11 @@ script: |
   make install
   cd ..
 
-  #Do not build this x64?
-  export CFLAGS="-I/usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/include/ -I/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/ -I.  -L/usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/lib/ -L/usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/lib/system/ -mmacosx-version-min=10.5"
-  export CXXFLAGS="-I/usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/include/ -I/usr/lib/gcc/i686-apple-darwin10/4.2.1/include/ -I.  -L/usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/lib/ -L/usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/lib/system/ -L/usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/lib/i686-apple-darwin10/4.2.1 -mmacosx-version-min=10.5"
-
   # Building GMP
   tar xjf gmp.tar.bz2
   cd gmp-*
   find -type f | xargs touch --date="$REFERENCE_DATETIME"
-  ./configure --host=i686-apple-darwin11 --prefix=$INSTDIR/gmp --disable-static --enable-shared --enable-cxx
+  ./configure --host=x86_64-apple-darwin11 --prefix=$INSTDIR/gmp --disable-static --enable-shared --enable-cxx
   make
   make install
   cd ..
